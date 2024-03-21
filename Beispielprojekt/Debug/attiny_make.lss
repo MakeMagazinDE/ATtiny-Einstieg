@@ -1,0 +1,191 @@
+
+attiny_make.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .data         00000000  00803f80  00803f80  00000128  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  1 .text         000000d4  00000000  00000000  00000054  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  2 .comment      00000030  00000000  00000000  00000128  2**0
+                  CONTENTS, READONLY
+  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000158  2**2
+                  CONTENTS, READONLY
+  4 .debug_aranges 00000020  00000000  00000000  00000194  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_info   00001891  00000000  00000000  000001b4  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_abbrev 0000147c  00000000  00000000  00001a45  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_line   000002f8  00000000  00000000  00002ec1  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_frame  00000024  00000000  00000000  000031bc  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_str    00000c3b  00000000  00000000  000031e0  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_loc    000000f4  00000000  00000000  00003e1b  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_ranges 00000010  00000000  00000000  00003f0f  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	19 c0       	rjmp	.+50     	; 0x34 <__ctors_end>
+   2:	20 c0       	rjmp	.+64     	; 0x44 <__bad_interrupt>
+   4:	1f c0       	rjmp	.+62     	; 0x44 <__bad_interrupt>
+   6:	1e c0       	rjmp	.+60     	; 0x44 <__bad_interrupt>
+   8:	1d c0       	rjmp	.+58     	; 0x44 <__bad_interrupt>
+   a:	1c c0       	rjmp	.+56     	; 0x44 <__bad_interrupt>
+   c:	1b c0       	rjmp	.+54     	; 0x44 <__bad_interrupt>
+   e:	1a c0       	rjmp	.+52     	; 0x44 <__bad_interrupt>
+  10:	19 c0       	rjmp	.+50     	; 0x44 <__bad_interrupt>
+  12:	18 c0       	rjmp	.+48     	; 0x44 <__bad_interrupt>
+  14:	17 c0       	rjmp	.+46     	; 0x44 <__bad_interrupt>
+  16:	16 c0       	rjmp	.+44     	; 0x44 <__bad_interrupt>
+  18:	15 c0       	rjmp	.+42     	; 0x44 <__bad_interrupt>
+  1a:	14 c0       	rjmp	.+40     	; 0x44 <__bad_interrupt>
+  1c:	13 c0       	rjmp	.+38     	; 0x44 <__bad_interrupt>
+  1e:	12 c0       	rjmp	.+36     	; 0x44 <__bad_interrupt>
+  20:	11 c0       	rjmp	.+34     	; 0x44 <__bad_interrupt>
+  22:	10 c0       	rjmp	.+32     	; 0x44 <__bad_interrupt>
+  24:	0f c0       	rjmp	.+30     	; 0x44 <__bad_interrupt>
+  26:	0e c0       	rjmp	.+28     	; 0x44 <__bad_interrupt>
+  28:	0d c0       	rjmp	.+26     	; 0x44 <__bad_interrupt>
+  2a:	0c c0       	rjmp	.+24     	; 0x44 <__bad_interrupt>
+  2c:	0b c0       	rjmp	.+22     	; 0x44 <__bad_interrupt>
+  2e:	0a c0       	rjmp	.+20     	; 0x44 <__bad_interrupt>
+  30:	09 c0       	rjmp	.+18     	; 0x44 <__bad_interrupt>
+  32:	08 c0       	rjmp	.+16     	; 0x44 <__bad_interrupt>
+
+00000034 <__ctors_end>:
+  34:	11 24       	eor	r1, r1
+  36:	1f be       	out	0x3f, r1	; 63
+  38:	cf ef       	ldi	r28, 0xFF	; 255
+  3a:	cd bf       	out	0x3d, r28	; 61
+  3c:	df e3       	ldi	r29, 0x3F	; 63
+  3e:	de bf       	out	0x3e, r29	; 62
+  40:	02 d0       	rcall	.+4      	; 0x46 <main>
+  42:	46 c0       	rjmp	.+140    	; 0xd0 <_exit>
+
+00000044 <__bad_interrupt>:
+  44:	dd cf       	rjmp	.-70     	; 0x0 <__vectors>
+
+00000046 <main>:
+#include <avr/io.h>
+#include <util/delay.h>
+
+int main(void)
+{
+	PORTA.DIRSET = (1 << 3);					// Pin 3 im Richtungsregister auf Output
+  46:	e0 e0       	ldi	r30, 0x00	; 0
+  48:	f4 e0       	ldi	r31, 0x04	; 4
+  4a:	88 e0       	ldi	r24, 0x08	; 8
+  4c:	81 83       	std	Z+1, r24	; 0x01
+	PORTA.DIRCLR = (1 << 2);					// Pin 2 als Eingang
+  4e:	94 e0       	ldi	r25, 0x04	; 4
+  50:	92 83       	std	Z+2, r25	; 0x02
+	PORTA.PIN2CTRL = PORT_PULLUPEN_bm;			// Pullup für Pin 2 von Port A aktivieren (Bit 3)
+  52:	82 8b       	std	Z+18, r24	; 0x12
+	
+	VREF.CTRLA |= VREF_DAC0REFSEL_4V34_gc;       // Voltage reference auf 4.34V
+  54:	a0 ea       	ldi	r26, 0xA0	; 160
+  56:	b0 e0       	ldi	r27, 0x00	; 0
+  58:	8c 91       	ld	r24, X
+  5a:	83 60       	ori	r24, 0x03	; 3
+  5c:	8c 93       	st	X, r24
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+  5e:	2c e1       	ldi	r18, 0x1C	; 28
+  60:	2a 95       	dec	r18
+  62:	f1 f7       	brne	.-4      	; 0x60 <main+0x1a>
+	_delay_us(25);	// 25 µs warten lt. Datenblatt
+	// The DAC output pin needs to have the digital input buffer and the pull-up resistor disabled to reduce its load:
+	PORTA.PIN6CTRL &= ~PORT_ISC_gm;
+  64:	86 89       	ldd	r24, Z+22	; 0x16
+  66:	88 7f       	andi	r24, 0xF8	; 248
+  68:	86 8b       	std	Z+22, r24	; 0x16
+	PORTA.PIN6CTRL |= PORT_ISC_INPUT_DISABLE_gc;
+  6a:	86 89       	ldd	r24, Z+22	; 0x16
+  6c:	84 60       	ori	r24, 0x04	; 4
+  6e:	86 8b       	std	Z+22, r24	; 0x16
+	PORTA.PIN6CTRL &= ~PORT_PULLUPEN_bm;
+  70:	86 89       	ldd	r24, Z+22	; 0x16
+  72:	87 7f       	andi	r24, 0xF7	; 247
+  74:	86 8b       	std	Z+22, r24	; 0x16
+	DAC0.CTRLA = DAC_ENABLE_bm | DAC_OUTEN_bm | DAC_RUNSTDBY_bm;		// Enabling DAC, Output Buffer (sends the OUT signal to a pin) and Run in Standby sleep mode
+  76:	81 ec       	ldi	r24, 0xC1	; 193
+  78:	80 93 80 06 	sts	0x0680, r24	; 0x800680 <__RODATA_PM_OFFSET__+0x7f8680>
+	
+	uint8_t DACwert = 0;
+  7c:	90 e0       	ldi	r25, 0x00	; 0
+
+	while (1)
+	{
+		if (PORTA.IN & (1 << 2))		// PA2 High? = Taster offen
+  7e:	80 91 08 04 	lds	r24, 0x0408	; 0x800408 <__RODATA_PM_OFFSET__+0x7f8408>
+  82:	82 ff       	sbrs	r24, 2
+  84:	0f c0       	rjmp	.+30     	; 0xa4 <__DATA_REGION_LENGTH__+0x24>
+		{
+			PORTA.OUTCLR |= (1<<3);		// PB3 LED LOW (aus)
+  86:	e0 e0       	ldi	r30, 0x00	; 0
+  88:	f4 e0       	ldi	r31, 0x04	; 4
+  8a:	86 81       	ldd	r24, Z+6	; 0x06
+  8c:	88 60       	ori	r24, 0x08	; 8
+  8e:	86 83       	std	Z+6, r24	; 0x06
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+  90:	3f e9       	ldi	r19, 0x9F	; 159
+  92:	86 e8       	ldi	r24, 0x86	; 134
+  94:	a1 e0       	ldi	r26, 0x01	; 1
+  96:	31 50       	subi	r19, 0x01	; 1
+  98:	80 40       	sbci	r24, 0x00	; 0
+  9a:	a0 40       	sbci	r26, 0x00	; 0
+  9c:	e1 f7       	brne	.-8      	; 0x96 <__DATA_REGION_LENGTH__+0x16>
+  9e:	00 c0       	rjmp	.+0      	; 0xa0 <__DATA_REGION_LENGTH__+0x20>
+  a0:	00 00       	nop
+  a2:	ed cf       	rjmp	.-38     	; 0x7e <main+0x38>
+			_delay_ms(150);
+		}
+		else
+		{
+			PORTA.OUTSET |= (1<<3);		// PB3 LED HIGH (ein)
+  a4:	e0 e0       	ldi	r30, 0x00	; 0
+  a6:	f4 e0       	ldi	r31, 0x04	; 4
+  a8:	85 81       	ldd	r24, Z+5	; 0x05
+  aa:	88 60       	ori	r24, 0x08	; 8
+  ac:	85 83       	std	Z+5, r24	; 0x05
+			DACwert += 5;				// Variable um 5 erhöhen
+  ae:	9b 5f       	subi	r25, 0xFB	; 251
+			DAC0.DATA = DACwert;		// DAC-Wert ausgeben
+  b0:	90 93 81 06 	sts	0x0681, r25	; 0x800681 <__RODATA_PM_OFFSET__+0x7f8681>
+  b4:	a2 ec       	ldi	r26, 0xC2	; 194
+  b6:	b2 ea       	ldi	r27, 0xA2	; 162
+  b8:	11 97       	sbiw	r26, 0x01	; 1
+  ba:	f1 f7       	brne	.-4      	; 0xb8 <__DATA_REGION_LENGTH__+0x38>
+  bc:	00 c0       	rjmp	.+0      	; 0xbe <__DATA_REGION_LENGTH__+0x3e>
+			_delay_ms(50);
+			PORTA.OUTCLR |= (1<<3);		// PB3 LED LOW
+  be:	86 81       	ldd	r24, Z+6	; 0x06
+  c0:	88 60       	ori	r24, 0x08	; 8
+  c2:	86 83       	std	Z+6, r24	; 0x06
+  c4:	e2 ec       	ldi	r30, 0xC2	; 194
+  c6:	f2 ea       	ldi	r31, 0xA2	; 162
+  c8:	31 97       	sbiw	r30, 0x01	; 1
+  ca:	f1 f7       	brne	.-4      	; 0xc8 <__DATA_REGION_LENGTH__+0x48>
+  cc:	00 c0       	rjmp	.+0      	; 0xce <__DATA_REGION_LENGTH__+0x4e>
+  ce:	d7 cf       	rjmp	.-82     	; 0x7e <main+0x38>
+
+000000d0 <_exit>:
+  d0:	f8 94       	cli
+
+000000d2 <__stop_program>:
+  d2:	ff cf       	rjmp	.-2      	; 0xd2 <__stop_program>
