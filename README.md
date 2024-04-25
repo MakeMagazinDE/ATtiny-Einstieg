@@ -9,7 +9,7 @@ Maker Media GmbH
 
 Ergänzend zum Artikel aus der Make 2/24 findest du hier die benötigten Daten des Beispielprojekts, mit denen du den ATtiny flashen musst.
 
-<b>Update:</b> Im Heft-Artikel hat sich ein Fehler im fritzing-Schaltplan eingeschlichen. Die korrigierte Version liegt jetzt ebenfalls hier zum Download.
+<b>Update:</b> Im Heft-Artikel hat sich ein Fehler im fritzing-Schaltplan eingeschlichen. Die korrigierte Version liegt jetzt ebenfalls hier zum Download bereit.
 
 ![Picture](https://github.com/MakeMagazinDE/ATtiny-Einstieg/blob/main/attiny_quer.jpg)
 
